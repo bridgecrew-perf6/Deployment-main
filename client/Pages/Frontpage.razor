@@ -1,0 +1,47 @@
+﻿@page "/"
+
+@using TodoListBlazor.Data;
+@using Model;
+@inject ServiceData questionService
+
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+
+<PageTitle>The Todo List</PageTitle>
+
+<h1>The Todo List</h1>
+
+@if (questions == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <ol>
+        @foreach (var quest in questions)
+        {
+            <li>
+                <table>
+                    <tr>
+                        <td>@quest.Question</td>
+                        <td>@quest.Answers</td>
+                        <td>@quest.Date</td>
+                    </tr>                  
+                </table>
+            </li>
+        }
+    </ol>
+}
+
+@code {
+    private Questions[]? questions;
+
+    protected override async Task OnInitializedAsync()
+    {
+        questions = await questionService.GetTaskData();
+    }
+
+
+
+}
